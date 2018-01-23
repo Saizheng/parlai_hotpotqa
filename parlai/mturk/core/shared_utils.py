@@ -15,8 +15,8 @@ THREAD_MEDIUM_SLEEP = 0.3
 THREAD_MTURK_POLLING_SLEEP = 10
 
 logger = None
-logging_enabled = True
-debug = True
+logging_enabled = False
+debug = False
 log_level = logging.ERROR
 
 if logging_enabled:

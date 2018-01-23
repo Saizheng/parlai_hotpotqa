@@ -365,7 +365,8 @@ class MTurkManager():
                 if allowed_convs == 0 or convs < allowed_convs:
                     agent = self._create_agent(hit_id, assign_id, worker_id)
                     curr_worker_state.add_agent(assign_id, agent)
-                    self._onboard_new_worker(agent)
+                    #self._onboard_new_worker(agent)
+                    self._move_workers_to_waiting([agent])
                 else:
                     text = ('You can participate in only {} of these HITs at '
                             'once. Please return this HIT and finish your '
@@ -684,7 +685,7 @@ class MTurkManager():
                 self.task_files_to_copy.append(os.path.join(
                     task_directory_path, 'html', file_name
                 ))
-        except FileNotFoundError:  # noqa F821 we don't support python2 
+        except FileNotFoundError:  # noqa F821 we don't support python2
             # No html dir exists
             pass
         for mturk_agent_id in self.mturk_agent_ids + ['onboarding']:
