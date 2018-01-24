@@ -315,7 +315,7 @@ def create_hit_type(hit_title, hit_description, hit_keywords, hit_reward,
 
     # Create the HIT type
     response = client.create_hit_type(
-        AutoApprovalDelayInSeconds=4*7*24*3600,  # auto-approve after 4 weeks
+        AutoApprovalDelayInSeconds=7*24*3600,  # auto-approve after 4 weeks
         AssignmentDurationInSeconds=assignment_duration_in_seconds,
         Reward=str(hit_reward),
         Title=hit_title,
@@ -357,7 +357,7 @@ def create_hit_with_hit_type(page_url, hit_type_id, num_assignments,
     response = client.create_hit_with_hit_type(
         HITTypeId=hit_type_id,
         MaxAssignments=num_assignments,
-        LifetimeInSeconds=31536000,
+        LifetimeInSeconds=3600*24,
         Question=question_data_struture,
     )
 
