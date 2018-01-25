@@ -203,6 +203,20 @@ class MTurkManager():
                 )
                 self.worker_pool.append(agent)
 
+    def _set_agent_status_to_waiting(self, agent):
+        """Changes assignment status to waiting based on the packet"""
+        # agent = self._get_agent_from_pkt(pkt)
+        if agent is not None:
+            agent.state.status = AssignState.STATUS_WAITING
+
+            # Add the worker to pool
+            with self.worker_pool_change_condition:
+                shared_utils.print_and_log(
+                    logging.DEBUG,
+                    "Adding worker {} to pool...".format(agent.worker_id)
+                )
+                self.worker_pool.append(agent)
+
     def _move_workers_to_waiting(self, workers):
         """Put all workers into waiting worlds, expire them if no longer
         accepting workers. If the worker is already final, clean it
@@ -218,11 +232,13 @@ class MTurkManager():
             conversation_id = 'w_{}'.format(uuid.uuid4())
             if self.accepting_workers:
                 # Move the worker into a waiting world
-                worker.change_conversation(
-                    conversation_id=conversation_id,
-                    agent_id='waiting',
-                    change_callback=self._set_worker_status_to_waiting
-                )
+                # worker.change_conversation(
+                #     conversation_id=conversation_id,
+                #     agent_id='waiting',
+                #     change_callback=self._set_worker_status_to_waiting
+                # )
+                self._set_agent_status_to_waiting(self._get_agent(worker_id, assignment_id))
+                pass
             else:
                 self.force_expire_hit(worker_id, assignment_id)
 
