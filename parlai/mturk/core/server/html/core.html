@@ -458,6 +458,22 @@
 
   /* ================= Socket handling ================= */
 
+  // way to send alive packets when expected to
+  function send_alive() {
+    send_packet(
+        TYPE_ALIVE,
+        {
+          hit_id: hit_id,
+          assignment_id: assignment_id,
+          worker_id: worker_id,
+          conversation_id: conversation_id
+        },
+        true,
+        true,
+        null
+    );
+  }
+
   // Sets up and registers the socket and the callbacks
   function setup_socket() {
     var host = window.location.hostname;
@@ -466,18 +482,7 @@
     // When the socket opens, we must tell it that we're alive
     socket.on(SOCKET_OPEN_STRING, function() {
       log('Server connected.', 2);
-      send_packet(
-          TYPE_ALIVE,
-          {
-            hit_id: hit_id,
-            assignment_id: assignment_id,
-            worker_id: worker_id,
-            conversation_id: conversation_id
-          },
-          true,
-          true,
-          null
-      );
+      send_alive();
     });
 
     // Log disconnect
@@ -616,17 +621,25 @@
       var new_agent_id = msg['agent_id'];
       if ((conversation_id === null) ||
           (is_waiting(conversation_id) && is_task(new_conversation_id))) {
+      // if (conversation_id === null) {
         // Redirect when moving from task to waiting or nothing to anything
         handle_redirect(new_agent_id, new_conversation_id);
+        // conversation_id = new_conversation_id;
+        // agent_id = new_agent_id;
+        // send_alive();
       } else if (is_waiting(new_conversation_id)) {
         // Display the waiting world, if there are any handlers for it
         conversation_id = new_conversation_id;
         agent_id = new_agent_id;
         show_waiting_world();
+        // No redirect, so tell the world we're here
+        send_alive();
       } else {
         // Update the conversation id
         conversation_id = new_conversation_id;
         agent_id = new_agent_id;
+        // No redirect, so tell the world we're here
+        send_alive();
       }
     }
   }
