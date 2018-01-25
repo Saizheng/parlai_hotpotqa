@@ -617,7 +617,9 @@
       if ((conversation_id === null) ||
           (is_waiting(conversation_id) && is_task(new_conversation_id))) {
         // Redirect when moving from task to waiting or nothing to anything
-        handle_redirect(new_agent_id, new_conversation_id);
+        // handle_redirect(new_agent_id, new_conversation_id);
+        conversation_id = new_conversation_id;
+        agent_id = new_agent_id;
       } else if (is_waiting(new_conversation_id)) {
         // Display the waiting world, if there are any handlers for it
         conversation_id = new_conversation_id;
