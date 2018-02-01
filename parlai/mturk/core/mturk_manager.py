@@ -633,8 +633,9 @@ class MTurkManager():
             'once the desired conversations {}.'.format(HIT_MULT, fin_word),
             should_print=True
         )
-        input('Please press Enter to continue... ')
-        shared_utils.print_and_log(logging.NOTSET, '', True)
+        if not self.opt['no_confirm']:
+            input('Please press Enter to continue... ')
+            shared_utils.print_and_log(logging.NOTSET, '', True)
 
         mturk_utils.setup_aws_credentials()
 
@@ -672,9 +673,10 @@ class MTurkManager():
                 ),
                 should_print=True
             )
-            check = input('Enter here: ')
-            if (check != confirm_string and ('$' + check) != confirm_string):
-                raise SystemExit('Cancelling')
+            if not self.opt['no_confirm']:
+                check = input('Enter here: ')
+                if (check != confirm_string and ('$' + check) != confirm_string):
+                    raise SystemExit('Cancelling')
 
         shared_utils.print_and_log(logging.INFO, 'Setting up MTurk server...',
                                    should_print=True)
