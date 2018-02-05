@@ -319,7 +319,7 @@ def create_hit_type(hit_title, hit_description, hit_keywords, hit_reward,
 
     # Create the HIT type
     response = client.create_hit_type(
-        AutoApprovalDelayInSeconds=3*24*3600,  # auto-approve after 3 days
+        AutoApprovalDelayInSeconds=7*24*3600,  # auto-approve after 3 days
         AssignmentDurationInSeconds=assignment_duration_in_seconds,
         Reward=str(hit_reward),
         Title=hit_title,
