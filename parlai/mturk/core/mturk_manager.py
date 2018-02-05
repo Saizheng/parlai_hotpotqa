@@ -22,6 +22,8 @@ import parlai.mturk.core.mturk_utils as mturk_utils
 import parlai.mturk.core.server_utils as server_utils
 import parlai.mturk.core.shared_utils as shared_utils
 
+JOIN_TIMEOUT = 600.0
+
 # Timeout before cancelling a world start
 WORLD_START_TIMEOUT = 11
 HEARTBEAT_DELAY_TIME = WORLD_START_TIMEOUT - SocketManager.DEF_SOCKET_TIMEOUT
@@ -849,7 +851,7 @@ class MTurkManager():
                 # Wait for all conversations to finish, then break from
                 # the while loop
                 for thread in self.task_threads:
-                    thread.join()
+                    thread.join(timeout=JOIN_TIMEOUT)
                 break
             time.sleep(shared_utils.THREAD_MEDIUM_SLEEP)
 
