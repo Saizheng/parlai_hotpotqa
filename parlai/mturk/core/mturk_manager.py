@@ -850,8 +850,8 @@ class MTurkManager():
                 self._expire_worker_pool()
                 # Wait for all conversations to finish, then break from
                 # the while loop
-                for thread in self.task_threads:
-                    thread.join(timeout=JOIN_TIMEOUT)
+                # for thread in self.task_threads:
+                #     thread.join(timeout=JOIN_TIMEOUT)
                 break
             time.sleep(shared_utils.THREAD_MEDIUM_SLEEP)
 
@@ -863,8 +863,8 @@ class MTurkManager():
             self._expire_onboarding_pool()
             self._expire_worker_pool()
             self.socket_manager.close_all_channels()
-            for assignment_id in self.assignment_to_onboard_thread:
-                self.assignment_to_onboard_thread[assignment_id].join()
+            # for assignment_id in self.assignment_to_onboard_thread:
+            #     self.assignment_to_onboard_thread[assignment_id].join()
         except BaseException:
             pass
         finally:
