@@ -164,9 +164,12 @@ def setup_heroku_server(task_name, task_files_to_copy=None):
     sh.git(shlex.split('add -A'))
     sh.git(shlex.split('commit -m "app"'))
     sh.git(shlex.split('push -f heroku master'))
-    subprocess.check_output(shlex.split('{} ps:scale web=1'.format(
+    subprocess.check_output(shlex.split('{} ps:scale web=hobby'.format(
         heroku_executable_path)
     ))
+    # subprocess.check_output(shlex.split('{} ps:scale web=1'.format(
+    #     heroku_executable_path)
+    # ))
     os.chdir(parent_dir)
 
     # Clean up heroku files
